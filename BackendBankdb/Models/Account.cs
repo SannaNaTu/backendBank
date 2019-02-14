@@ -7,15 +7,22 @@ namespace BackendBankdb.Models
 {
     public partial class Account
     {
-        [Key]
-        [StringLength(20)]
+        public Account()
+        {
+            Transaction = new HashSet<Transaction>();
+        }
+
+        [Required]
+        [StringLength(50)]
         public string IBAN { get; set; }
+        [Required]
         [StringLength(50)]
         public string Name { get; set; }
         public long BankId { get; set; }
         public long CustomerId { get; set; }
         [Column(TypeName = "decimal(18, 0)")]
         public decimal Balance { get; set; }
+        public long Id { get; set; }
 
         [ForeignKey("BankId")]
         [InverseProperty("Account")]
@@ -23,8 +30,7 @@ namespace BackendBankdb.Models
         [ForeignKey("CustomerId")]
         [InverseProperty("Account")]
         public virtual Customer Customer { get; set; }
-        [ForeignKey("CustomerId")]
         [InverseProperty("Account")]
-        public virtual Transaction CustomerNavigation { get; set; }
+        public virtual ICollection<Transaction> Transaction { get; set; }
     }
 }

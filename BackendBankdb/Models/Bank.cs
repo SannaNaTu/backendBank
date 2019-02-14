@@ -18,12 +18,12 @@ namespace BackendBankdb.Models
         [StringLength(50)]
         public string Name { get; set; }
         [Required]
-        [StringLength(10)]
+        [StringLength(50)]
         public string BIC { get; set; }
 
         [InverseProperty("Bank")]
         public virtual ICollection<Account> Account { get; set; }
-        [InverseProperty("Back")]
+        [InverseProperty("Bank")]
         public virtual ICollection<Customer> Customer { get; set; }
     }
 }

@@ -15,18 +15,18 @@ namespace BackendBankdb.Models
         public long Id { get; set; }
         [Required]
         [StringLength(50)]
-        public string Firstname { get; set; }
+        public string FirstName { get; set; }
         [Required]
         [StringLength(50)]
-        public string Lastname { get; set; }
-        public long BackId { get; set; }
+        public string LastName { get; set; }
+        public long BankId { get; set; }
         [Required]
         [StringLength(50)]
-        public string Password { get; set; }
+        public string Psw { get; set; }
 
-        [ForeignKey("BackId")]
+        [ForeignKey("BankId")]
         [InverseProperty("Customer")]
-        public virtual Bank Back { get; set; }
+        public virtual Bank Bank { get; set; }
         [InverseProperty("Customer")]
         public virtual ICollection<Account> Account { get; set; }
     }

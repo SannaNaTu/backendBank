@@ -35,53 +35,51 @@ namespace BackendBankdb.Models
 
             modelBuilder.Entity<Account>(entity =>
             {
-                entity.Property(e => e.IBAN).ValueGeneratedNever();
+                entity.Property(e => e.IBAN).IsUnicode(false);
 
                 entity.Property(e => e.Name).IsUnicode(false);
 
                 entity.HasOne(d => d.Bank)
                     .WithMany(p => p.Account)
                     .HasForeignKey(d => d.BankId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Account_Bank");
 
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Account)
                     .HasForeignKey(d => d.CustomerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Account_Customer");
-
-                entity.HasOne(d => d.CustomerNavigation)
-                    .WithMany(p => p.Account)
-                    .HasForeignKey(d => d.CustomerId)
-                    .HasConstraintName("FK_Account_Transaction");
             });
 
             modelBuilder.Entity<Bank>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.BIC).IsUnicode(false);
 
                 entity.Property(e => e.Name).IsUnicode(false);
             });
 
             modelBuilder.Entity<Customer>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.FirstName).IsUnicode(false);
 
-                entity.Property(e => e.Firstname).IsUnicode(false);
+                entity.Property(e => e.LastName).IsUnicode(false);
 
-                entity.Property(e => e.Lastname).IsUnicode(false);
+                entity.Property(e => e.Psw).IsUnicode(false);
 
-                entity.Property(e => e.Password).IsUnicode(false);
-
-                entity.HasOne(d => d.Back)
+                entity.HasOne(d => d.Bank)
                     .WithMany(p => p.Customer)
-                    .HasForeignKey(d => d.BackId)
+                    .HasForeignKey(d => d.BankId)
                     .HasConstraintName("FK_Customer_Bank");
             });
 
             modelBuilder.Entity<Transaction>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.IBAN).IsUnicode(false);
+
+                entity.HasOne(d => d.Account)
+                    .WithMany(p => p.Transaction)
+                    .HasForeignKey(d => d.AccountId)
+                    .HasConstraintName("FK_Transaction_Account1");
             });
 
             OnModelCreatingPartial(modelBuilder);
